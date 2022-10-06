@@ -121,14 +121,14 @@
                 s+=".";
                 s+=Math.floor(spreadPerSecond).toString(16);
                 s+='.'
-                s+=Math.floor(Math.floor(cnt)*0.2022+Math.floor(cntPerSecond)*0.8+Math.floor(spread)*0.16+Math.floor(spreadPerSecond)*0.06);
+                s+=Math.floor(Math.floor(cnt)*11+Math.floor(cntPerSecond)*45+Math.floor(spread)*14+Math.floor(spreadPerSecond)*1919810);
                 prompt("Please copy the code below and remember it.",s);
             }
             document.getElementById("load").onclick=function(){
                 try{
                     var l=prompt("Please enter code:","").split(".");
                     var l0=parseInt(l[0],16),l1=parseInt(l[1],16),l2=parseInt(l[2],16),l3=parseInt(l[3],16),l4=parseInt(l[4],16);
-                    if(l4==Math.floor(l0*0.2022+l1*0.8+l2*0.16+l3*0.06)){
+                    if(l4==Math.floor(l0*11+l1*45+l2*14+l3*1919810)){
                         cnt=l0;
                         cntPerSecond=l1;
                         spread=l2;
