@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Hello World clicker</title>
+    </head>
+    <body>
+        <p id="indicator-shouts">Shouts:0(0/s)</p>
+        <p id="indicator-spread" style="display:none">Spread:0(0/s)</p>
+        <button id="btn-shout">Shout "Hello world"</button>
+        <br>
+        <button id="btn-shouter" style="display:none">Hire a shouter,they can shout 1 per second(uses 10 shouts)</button>
+        <br>
+        <button id="btn-megaphone" style="display:none">Buy a megaphone,they can shout 10 per second(uses 100 shouts)</button>
+        <br>
+        <button id="btn-coder" style="display:none">Hire a coder,ther can shout 100 per second by adding it into the web(uses 1000 shouts)</button>
+        <br>
+        <button id="btn-oier" style="display:none">Hire a OIer,they can provide 1000 shouts per second by doing <a href="https://www.luogu.com.cn/problem/B2002">Luogu B2002</a>(uses 10000 shouts)</button>
+        <br>
+        <button id="btn-propaganda" style="display:none">Make a propaganda.Unlocks spread.Each spread adds 10 shouts per second each second.(uses 100000 shouts)</button>
+        <br>
+        <button id="btn-advertise" style="display:none">Advertise your career.Provides 1 spread per second.(uses 5 spread)</button>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <button id="save">Save</button>
+        <br>
+        <button id="load">Load</button>
+        <script>
+            var cnt=0,cntPerSecond=0,spread=0,spreadPerSecond=0,cntPerShouters=10,cntPerMegaphone=100,cntPerCoder=1000,cntPerOIer=10000,cntPerPropaganda=100000,spreadPerAdvertise=5;
+            function refresh(){
+                document.getElementById("indicator-shouts").innerHTML="Shouts:"+Math.floor(cnt)+"("+Math.floor(cntPerSecond)+"/s)";
+                document.getElementById("indicator-spread").innerHTML="Spread:"+Math.floor(spread)+"("+Math.floor(spreadPerSecond)+"/s)";
+                cnt+=cntPerSecond/10;
+                cntPerSecond+=spread;
+                spread+=spreadPerSecond/10;
+                if(cnt>=10){
+                    document.getElementById("btn-shouter").style="";
+                }
+                if(cnt>=100){
+                    document.getElementById("btn-megaphone").style="";
+                }
+                if(cnt>=1000){
+                    document.getElementById("btn-coder").style="";
+                }
+                if(cnt>=10000){
+                    document.getElementById("btn-oier").style="";
+                }
+                if(cnt>=100000){
+                    document.getElementById("btn-propaganda").style="";
+                }
+                if(spread>=1){
+                    document.getElementById("indicator-spread").style="";
+                }
+                if(spread>=5){
+                    document.getElementById("btn-advertise").style="";
+                }
+            }
+            var int=setInterval(refresh,100);
+            document.getElementById("btn-shout").onclick=function(){
+                cnt++;
+                
+            }
+            document.getElementById("btn-shouter").onclick=function(){
+                if(cnt>=cntPerShouters){
+                    cnt-=cntPerShouters;
+                    cntPerShouters*=2;
+                    cntPerSecond+=1;
+                    document.getElementById("btn-shouter").innerHTML="Hire a shouter,they can shout 1 per second(uses "+cntPerShouters+" shouts)";
+                }
+            }
+            document.getElementById("btn-megaphone").onclick=function(){
+                if(cnt>=cntPerMegaphone){
+                    cnt-=cntPerMegaphone;
+                    cntPerSecond+=10;
+                    cntPerMegaphone*=2;
+                    document.getElementById("btn-megaphone").innerHTML="Buy a megaphone,they can shout 10 per second(uses "+cntPerMegaphone+" shouts)";
+                }
+            }
+            document.getElementById("btn-coder").onclick=function(){
+                if(cnt>=cntPerCoder){
+                    cnt-=cntPerCoder;
+                    cntPerCoder*=2;
+                    cntPerSecond+=100;
+                    document.getElementById("btn-coder").innerHTML="Hire a coder,they can shout 100 per second by adding it into the web(uses "+cntPerCoder+" shouts)";
+                }
+            }
+            document.getElementById("btn-oier").onclick=function(){
+                if(cnt>=cntPerOIer){
+                    cnt-=cntPerOIer;
+                    cntPerOIer*=2;
+                    cntPerSecond+=1000;
+                    document.getElementById("btn-oier").innerHTML="Hire a OIer,they can provide 1000 shouts per second by doing <a href=\"https://www.luogu.com.cn/problem/B2002\">Luogu B2002</a>(uses "+cntPerOIer+" shouts)"
+                }
+            }
+            document.getElementById("btn-propaganda").onclick=function(){
+                if(cnt>=cntPerPropaganda){
+                    cnt-=cntPerPropaganda;
+                    cntPerPropaganda*=2;
+                    spread++;
+                    document.getElementById("btn-propaganda").innerHTML="Make a propaganda.Adds 1 spread.Each spread provides 10 shouts per second each second.(uses "+cntPerPropaganda+" shouts)";
+                }
+            }
+            document.getElementById("btn-advertise").onclick=function(){
+                if(spread>=spreadPerAdvertise){
+                    spread-=spreadPerAdvertise;
+                    spreadPerSecond++;
+                    spreadPerAdvertise*=2;
+                    document.getElementById("btn-advertise").innerHTML="Advertise your career.Provides 1 spread per second.(uses "+spreadPerAdvertise+" spread)";
+                }
+            }
+            document.getElementById("save").onclick=function(){
+                var s="";
+                s+=Math.floor(cnt).toString(16);
+                s+=".";
+                s+=Math.floor(cntPerSecond).toString(16);
+                s+=".";
+                s+=Math.floor(spread).toString(16);
+                s+=".";
+                s+=Math.floor(spreadPerSecond).toString(16);
+                s+='.'
+                s+=Math.floor(Math.floor(cnt)*0.2022+Math.floor(cntPerSecond)*0.8+Math.floor(spread)*0.16+Math.floor(spreadPerSecond)*0.06);
+                prompt("Please copy the code below and remember it.",s);
+            }
+            document.getElementById("load").onclick=function(){
+                try{
+                    var l=prompt("Please enter code:","").split(".");
+                    var l0=parseInt(l[0],16),l1=parseInt(l[1],16),l2=parseInt(l[2],16),l3=parseInt(l[3],16),l4=parseInt(l[4],16);
+                    if(l4==Math.floor(l0*0.2022+l1*0.8+l2*0.16+l3*0.06)){
+                        cnt=l0;
+                        cntPerSecond=l1;
+                        spread=l2;
+                        spreadPerSecond=l3;
+                    }else{
+                        alert("Code not correct,please check.");
+                    }
+                }catch(e){
+                    alert("Code not correct,please check.");
+                }
+            }
+        </script>
+    </body>
+</html>
